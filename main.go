@@ -6,8 +6,10 @@ import (
 	"net"
 	"net/http"
 	"os"
+	"time"
 
 	"github.com/gin-gonic/gin"
+	"github.com/patrickmn/go-cache"
 
 	"github.com/danmarg/smtp-sts"
 )
@@ -27,6 +29,9 @@ func main() {
 	router.GET("/", func(c *gin.Context) {
 		c.HTML(http.StatusOK, "index.tmpl.html", nil)
 	})
+
+	chc := cache.New(5*time.Minute, 30*time.Second)
+
 	router.GET("/test/:domain", func(c *gin.Context) {
 		var e error
 		d := c.Param("domain")
@@ -72,27 +77,33 @@ func main() {
 			r.MXs = append(r.MXs, m.Host)
 		}
 		// Check the TLS connections themselves, with a timeout.
-		// TODO: enable once we have some sort of throttling in place!
-		/*for _, m := range mxs {
-			c := make(chan string, 1)
-			go func(c chan<- string) {
-				if e := sts.CheckMXViaSMTP(m); e != nil {
-					c <- fmt.Sprintf("error establishing TLS connection to %v: %v", m.Host, e)
-				} else {
-					c <- ""
+		var mxerrs []string
+		m, ok := chc.Get(d)
+		if !ok {
+			for _, m := range mxs {
+				c := make(chan string, 1)
+				go func(c chan<- string) {
+					if e := sts.CheckMXViaSMTP(m); e != nil {
+						c <- fmt.Sprintf("error establishing TLS connection to %v: %v", m.Host, e)
+					} else {
+						c <- ""
+					}
+				}(c)
+				select {
+				case e := <-c:
+					if e != "" {
+						mxerrs = append(mxerrs, e)
+					}
+				case <-time.After(2 * time.Second):
+					mxerrs = append(mxerrs, fmt.Sprintf("timeout establishing TLS connection to %v", m.Host))
+					continue
 				}
-			}(c)
-			select {
-			case e := <-c:
-				if e != "" {
-					r.Errors = append(r.Errors, e)
-				}
-			case <-time.After(2 * time.Second):
-				r.Errors = append(r.Errors, fmt.Sprintf("timeout establishing TLS connection to %v", m.Host))
-				continue
 			}
-		}*/
-
+			chc.Set(d, mxerrs, cache.DefaultExpiration)
+		} else {
+			mxerrs = m.([]string)
+		}
+		r.Errors = append(r.Errors, mxerrs...)
 		c.JSON(200, r)
 	})
 
