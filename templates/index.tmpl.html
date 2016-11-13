@@ -1,1 +1,62 @@
-
+<html>
+  <head>
+    <title>SMTP STS Webtester</title>
+    <script
+src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <style>
+        body {
+          font-family: monospace;
+          font-weight: bold;
+        } 
+        div {
+          font-weight: normal;
+        }
+        #errors {
+          color: red;
+        }
+        #okay {
+          color: green;
+          display: none;
+        }
+    </style>
+  </head>
+  <body>
+    <form>
+      Domain: <input type="text" id="domain" value="yahoo.com">
+    </form>
+    <div id="check" style="border: 1px solid gray; display: inline-block;">Click to check domain</div>
+    <hr></hr>
+    Errors: <div id="errors"></div>
+    Policy ID: <div id="policy_id"></div>
+    Policy MX patterns: <div id="policy_mxs"></div>
+    Policy Mode: <div id="policy_mode"></div>
+    Policy expiration: <div id="policy_expires"></div>
+    Found MXs: <div id="mxs"></div>
+    <div id="okay">Everything OK!</div>
+    <script>
+    $("#check").click(function(){
+      // Clear all.
+      $("#errors").text("");
+      $("#policy_id").text("");
+      $("#policy_mxs").text("");
+      $("#policy_mode").text("");
+      $("#policy_expires").text("");
+      $("#mxs").text("");
+      $("#ok").hide();
+      // Do the AJAX thing.
+      $.ajax({
+        url: "/test/" + $("#domain").val()
+      }).then(function(data){
+        $("#errors").text(data["errors"].toString())
+        $("#policy_id").text(data["policy_id"])
+        $("#policy_mxs").text(data["policy_mxs"].toString())
+        $("#policy_mode").text(data["policy_mode"].toString())
+        $("#policy_expires").text(data["policy_expires"].toString())
+        $("#mxs").text(data["mxs"].toString())
+        if (data["errors"].length() == 0) {
+          $("#ok").show();
+        }
+      })
+    });
+    </script>
+</html>
