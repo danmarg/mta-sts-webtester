@@ -1,0 +1,7 @@
+{
+  "name": "SMTP STS Webtester",
+  "description": "Test SMTP STS conformance",
+  "mount_dir": "src/github.com/danmarg/smtp-sts-webtester",
+  "website": "http://github.com/danmarg/smtp-sts-webtester",
+  "repository": "http://github.com/danmarg/smtp-sts-webtester"
+}
