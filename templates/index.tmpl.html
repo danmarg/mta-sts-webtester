@@ -36,28 +36,28 @@ src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script
     <script>
     $("#check").click(function(){
       // Clear all.
-      $("#errors").text("");
-      $("#policy_id").text("");
-      $("#policy_mxs").text("");
-      $("#policy_mode").text("");
-      $("#policy_expires").text("");
-      $("#mxs").text("");
+      $("#errors").html("");
+      $("#policy_id").html("");
+      $("#policy_mxs").html("");
+      $("#policy_mode").html("");
+      $("#policy_expires").html("");
+      $("#mxs").html("");
       $("#ok").hide();
       // Do the AJAX thing.
       $.ajax({
         url: "/test/" + $("#domain").val()
       }).then(function(data){
         if (data["errors"] != null) {
-          $("#errors").text(data["errors"].toString());
+          $("#errors").html(data["errors"].join('<br/>'));
         }
-        $("#policy_id").text(data["policy_id"]);
+        $("#policy_id").html(data["policy_id"]);
         if (data["policy_mxs"] != null) {
-          $("#policy_mxs").text(data["policy_mxs"].toString());
+          $("#policy_mxs").html(data["policy_mxs"].join('<br/>'));
         }
-        $("#policy_mode").text(data["policy_mode"]);
-        $("#policy_expires").text(data["policy_expires"]);
+        $("#policy_mode").html(data["policy_mode"]);
+        $("#policy_expires").html(data["policy_expires"]);
         if (data["mxs"] != null) {
-          $("#mxs").text(data["mxs"].toString());
+          $("#mxs").html(data["mxs"].join('<br/>'));
         }
         if (data["errors"] == null) {
           $("#ok").show();
