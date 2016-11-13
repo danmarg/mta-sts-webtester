@@ -48,13 +48,17 @@ src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script
         url: "/test/" + $("#domain").val()
       }).then(function(data){
         if (data["errors"] != null) {
-          $("#errors").text(data["errors"].toString())
+          $("#errors").text(data["errors"].toString());
         }
-        $("#policy_id").text(data["policy_id"])
-        $("#policy_mxs").text(data["policy_mxs"].toString())
-        $("#policy_mode").text(data["policy_mode"].toString())
-        $("#policy_expires").text(data["policy_expires"].toString())
-        $("#mxs").text(data["mxs"].toString())
+        $("#policy_id").text(data["policy_id"]);
+        if (data["policy_mxs"] != null) {
+          $("#policy_mxs").text(data["policy_mxs"].toString());
+        }
+        $("#policy_mode").text(data["policy_mode"]);
+        $("#policy_expires").text(data["policy_expires"]);
+        if (data["mxs"] != null) {
+          $("#mxs").text(data["mxs"].toString());
+        }
         if (data["errors"] == null) {
           $("#ok").show();
         }
