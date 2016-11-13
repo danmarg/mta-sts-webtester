@@ -3,6 +3,12 @@
 	"ignore": "test",
 	"package": [
 		{
+			"checksumSHA1": "hl7kueSc4e3EX2LfypFgurbINy4=",
+			"path": "github.com/danmarg/smtp-sts",
+			"revision": "4cd9e00713318a49f9dc7282025446212e0c466b",
+			"revisionTime": "2016-11-13T11:20:24Z"
+		},
+		{
 			"checksumSHA1": "Qq7Gzany1n6gK6hpZQq9UXFhGGo=",
 			"comment": "v1.0rc1-110-g4cc2de6",
 			"path": "github.com/gin-gonic/gin",
@@ -47,5 +53,5 @@
 			"revision": "d627af88ac021317a280d320986282a6dc97549a"
 		}
 	],
-	"rootPath": "github.com/heroku/go-getting-started"
+	"rootPath": "github.com/danmarg/smtp-sts-webtester"
 }
