@@ -47,13 +47,15 @@ src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script
       $.ajax({
         url: "/test/" + $("#domain").val()
       }).then(function(data){
-        $("#errors").text(data["errors"].toString())
+        if (data["errors"] != null) {
+          $("#errors").text(data["errors"].toString())
+        }
         $("#policy_id").text(data["policy_id"])
         $("#policy_mxs").text(data["policy_mxs"].toString())
         $("#policy_mode").text(data["policy_mode"].toString())
         $("#policy_expires").text(data["policy_expires"].toString())
         $("#mxs").text(data["mxs"].toString())
-        if (data["errors"].length() == 0) {
+        if (data["errors"].length() == null) {
           $("#ok").show();
         }
       })
