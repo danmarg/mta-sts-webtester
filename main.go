@@ -6,7 +6,6 @@ import (
 	"net"
 	"net/http"
 	"os"
-	"time"
 
 	"github.com/gin-gonic/gin"
 
@@ -73,7 +72,8 @@ func main() {
 			r.MXs = append(r.MXs, m.Host)
 		}
 		// Check the TLS connections themselves, with a timeout.
-		for _, m := range mxs {
+		// TODO: enable once we have some sort of throttling in place!
+		/*for _, m := range mxs {
 			c := make(chan string, 1)
 			go func(c chan<- string) {
 				if e := sts.CheckMXViaSMTP(m); e != nil {
@@ -91,7 +91,7 @@ func main() {
 				r.Errors = append(r.Errors, fmt.Sprintf("timeout establishing TLS connection to %v", m.Host))
 				continue
 			}
-		}
+		}*/
 
 		c.JSON(200, r)
 	})
