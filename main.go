@@ -56,9 +56,12 @@ func main() {
 			return
 		}
 		r.PolicyMXs = p.MXs
-		if p.Mode == sts.Policy_REPORT {
-			r.PolicyMode = "report"
-		} else {
+		switch p.Mode {
+		case sts.Policy_TESTING:
+			r.PolicyMode = "testing"
+		case sts.Policy_NONE:
+			r.PolicyMode = "none"
+		default:
 			r.PolicyMode = "enforce"
 		}
 		r.PolicyExpires = p.Expires.String()
