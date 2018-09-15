@@ -3,10 +3,10 @@
 	"ignore": "test",
 	"package": [
 		{
-			"checksumSHA1": "hl7kueSc4e3EX2LfypFgurbINy4=",
+			"checksumSHA1": "ucowlatDXmrpF77TDLOzvwMxV9E=",
 			"path": "github.com/danmarg/smtp-sts",
-			"revision": "4cd9e00713318a49f9dc7282025446212e0c466b",
-			"revisionTime": "2016-11-13T11:20:24Z"
+			"revision": "1394ae6855c0790d2468af07e47c26e69d684733",
+			"revisionTime": "2018-09-15T10:00:59Z"
 		},
 		{
 			"checksumSHA1": "Qq7Gzany1n6gK6hpZQq9UXFhGGo=",
