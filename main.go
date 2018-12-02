@@ -97,7 +97,7 @@ func main() {
 					if e != "" {
 						mxerrs = append(mxerrs, e)
 					}
-				case <-time.After(2 * time.Second):
+				case <-time.After(10 * time.Second):
 					mxerrs = append(mxerrs, fmt.Sprintf("timeout establishing TLS connection to %v", m.Host))
 					continue
 				}
